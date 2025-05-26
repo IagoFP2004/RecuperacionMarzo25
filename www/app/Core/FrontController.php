@@ -2,6 +2,7 @@
 
 namespace Com\Daw2\Core;
 
+use Com\Daw2\Controllers\UsuarioController;
 use Steampixel\Route;
 
 class FrontController
@@ -9,6 +10,34 @@ class FrontController
 
     static function main()
     {
+        session_start();
+        if (!isset($_SESSION['usuario'])) {
+
+            Route::add(
+                '/login',
+                function () {
+                    $controlador = new UsuarioController();
+                    $controlador->mostrarMenuLogin();
+                },
+                'get'
+            );
+
+            Route::add(
+                '/login',
+                function () {
+                    $controlador = new UsuarioController();
+                    $controlador->doLogin();
+                },
+                'POST'
+            );
+
+            Route::pathNotFound(
+                function () {
+                    header('Location: /login');
+                }
+            );
+
+        }else{
         //Rutas que están disponibles para todos
         Route::add(
             '/',
@@ -251,8 +280,7 @@ class FrontController
                 $controller->error405();
             }
         );
-
-
+        }
         Route::run();
     }
 }

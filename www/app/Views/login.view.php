@@ -35,14 +35,16 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="password" class="form-control" name="pass" placeholder="Password">
+          <input type="password" class="form-control" name="password" placeholder="Password">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-lock"></span>
             </div>
           </div>          
-        </div>           
-      <p class="login-box-msg text-danger">Datos incorrectos</p>      
+        </div>
+          <?php if (isset($error)){?>
+      <p class="login-box-msg text-danger">Datos incorrectos</p>
+          <?php }?>
         <div class="row">
           <div class="col-12">            
             <button type="submit" class="btn btn-primary btn-block float-right">Acceder</button>
