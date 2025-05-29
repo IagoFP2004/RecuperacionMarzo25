@@ -56,7 +56,7 @@
       </li>' ;
           ?>
       <li class="nav-item">
-        <a class="nav-link" href="logout" role="button">
+        <a class="nav-link" href="<?php echo $_ENV['base.url']. ($_SESSION['usuario'] ? 'logout':'login') ?>" role="button">
             <i class="text-danger fas fa-sign-out-alt"></i>
         </a>        
       </li>
@@ -86,7 +86,7 @@
         </div>
         <div class="info">
           <a href="#"
-                class="d-block"> <i>Sin establecer</i> </a>    
+                class="d-block"> <i><?php echo $_SESSION['usuario']['nombre'] ?? 'Usuario'?></i> </a>
         </div>
       </div>
      

@@ -34,13 +34,14 @@
                                 <p>Productos</p>
                             </a>
                         </li>
-
+                        <?php if (str_contains($_SESSION['permisos']['categorias'],'r')){ ?>
                         <li class="nav-item">
                             <a href="/categorias" class="nav-link <?php echo isset($seccion) && $seccion === '/categorias' ? 'active' : ''; ?>">
                                 <i class="fas fa-folder nav-icon"></i>
                                 <p>Categorías</p>
                             </a>
-                        </li>                                                                       
+                        </li>
+                        <?php } ?>
                         <li class="nav-item">
                             <a href="/proveedores" class="nav-link <?php echo isset($seccion) && $seccion === '/proveedores' ? 'active' : ''; ?>">
                                 <i class="fas fa-handshake nav-icon"></i>
