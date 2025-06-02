@@ -31,4 +31,12 @@ class UsuarioSistemaModel extends BaseDbModel
         $stmt->execute(['username' => $username]);
         return $stmt->fetch();
     }
+
+    public function getByEmail(string $email):array | false
+    {
+        $sql = "SELECT * FROM usuario_sistema WHERE email = :email ";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['email' => $email]);
+        return $stmt->fetch();
+    }
 }

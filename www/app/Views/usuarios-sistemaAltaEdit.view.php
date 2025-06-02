@@ -15,23 +15,23 @@
                             <div class="row">
                                 <div class="mb-3 col-sm-6">
                                     <label for="nombre">Nombre de usuario</label>
-                                    <input class="form-control" id="username" type="text" name="username" placeholder="MyUsername" value="<?php echo $input['username']?>">
+                                    <input class="form-control" id="username" type="text" name="username" placeholder="MyUsername" value="<?php echo $input['username'] ?? ''?>">
                                     <p class="text-danger"><?php echo $errores['username'] ?? '' ?></p>
                                 </div>
                                 <div class="mb-3 col-sm-3">
                                     <label for="pass">Contraseña</label>
                                     <input class="form-control" id="pass" type="password" name="pass" placeholder="Sin modificar" value="">
-                                    <p class="text-danger">Los passwords no coinciden</p>
+                                    <p class="text-danger"><?php echo $errores['pass'] ?? '' ?></p>
                                 </div>
                                 <div class="mb-3 col-sm-3">
                                     <label for="pass2">Repetir Contraseña</label>
                                     <input class="form-control" id="pass2" type="password" name="pass2" placeholder="Sin modificar" value="">
-                                    <p class="text-danger"></p>
+                                    <p class="text-danger"><?php echo $errores['pass'] ?? '' ?></p>
                                 </div>
                                 <div class="mb-3 col-sm-6">
                                     <label for="email">Email</label>
-                                    <input class="form-control" id="email" type="email" name="email" placeholder="miemail@dominio.org" value="">
-                                    <p class="text-danger">Campo obligatorio</p>
+                                    <input class="form-control" id="email" type="email" name="email" placeholder="miemail@dominio.org" value="<?php echo $input['email' ?? ''] ?>">
+                                    <p class="text-danger"><?php echo $errores['email'] ?? '' ?></p>
                                 </div>
                                 <div class="mb-3 col-sm-4">
                                     <label for="id_rol">Rol del usuario</label>

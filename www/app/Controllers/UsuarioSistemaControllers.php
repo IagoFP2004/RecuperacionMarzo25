@@ -112,10 +112,28 @@ class UsuarioSistemaControllers extends \Com\Daw2\Core\BaseController
         $errors = [];
         $modelo = new UsuarioSistemaModel();
 
-        if($modelo->getByUsername($data['username']) !==false){
+        if (empty($data['username'])) {
+            $errors['username'] = 'El nombre de usuario no puede estar vacio';
+        }else if($modelo->getByUsername($data['username']) !==false){
             $errors['username'] = 'El nombre de usuario ya existe';
         }else if (!preg_match('/^[A-Za-z0-9_]{5,20}$/', $data['username'])) {
             $errors['username'] = 'El formato no es adecuado';
+        }
+
+        if (empty($data['pass']) || empty($data['pass2'])) {
+            $errors['pass'] = 'campo obligatorio';
+        }else if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/', $data['pass']) || !preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/', $data['pass2'])) {
+            $errors['pass'] = 'El formato no es correcto';
+        }else if ($data['pass'] != $data['pass2']) {
+            $errors['pass'] = 'las contraseñas no coinciden';
+        }
+
+        if (empty($data['email'])){
+            $errors['email'] = 'El email es un campo obligatorio';
+        }else if (filter_var($data['email'], FILTER_VALIDATE_EMAIL) === false) {
+            $errors['email'] = 'El email no es valido';
+        }else if($modelo->getByEmail($data['email']) !==false){
+            $errors['email'] = 'El email ya existe';
         }
 
 
