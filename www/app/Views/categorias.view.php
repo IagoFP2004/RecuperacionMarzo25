@@ -10,10 +10,11 @@
     ?>
     <div class="col-12">
         <div class="card shadow mb-4">
+            <?php if (str_contains($_SESSION['permisos']['categorias'],'w')){ ?>
             <div
                 class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <div class="col-6">
-                <h6 class="m-0 installfont-weight-bold text-primary">Categorías</h6> 
+                <h6 class="m-0 installfont-weight-bold text-primary">Categorías</h6>
                 </div>
                 <div class="col-6">   
                     <div class="m-0 font-weight-bold justify-content-end">
@@ -21,6 +22,7 @@
                     </div>
                 </div>
             </div>
+            <?php }?>
             <!-- Card Body -->
             <div class="card-body" id="card_table">
                 <div id="button_container" class="mb-3"></div>
@@ -46,8 +48,12 @@
                                     <td><?php echo $c['fullName']; ?></td>   
                                     <td>                                       
                                         <a href="/categorias/view/<?php echo $c['id_categoria']; ?>" class="btn btn-default ml-1"><i class="fas fa-eye"></i></a>
+                                        <?php if (str_contains($_SESSION['permisos']['categorias'],'w')){ ?>
                                         <a href="/categorias/edit/<?php echo $c['id_categoria']; ?>" class="btn btn-success ml-1"><i class="fas fa-edit"></i></a>
+                                        <?php }?>
+                                        <?php if (str_contains($_SESSION['permisos']['categorias'],'d')){ ?>
                                         <a href="/categorias/delete/<?php echo $c['id_categoria']; ?>" class="btn btn-danger ml-1"><i class="fas fa-trash"></i></a>
+                                        <?php } ?>
                                     </td>
 
                                 </tr>

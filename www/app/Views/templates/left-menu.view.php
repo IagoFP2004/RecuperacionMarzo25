@@ -21,13 +21,14 @@
 
                 
                     <ul class="nav nav-treeview">
+                        <?php if (str_contains($_SESSION['permisos']['ususariosistema'],'r')){ ?>
                         <li class="nav-item">
                             <a href="/usuarios-sistema" class="nav-link <?php echo isset($seccion) && $seccion === '/usuarios-sistema' ? 'active' : ''; ?>">
                                 <i class="fas fa-users nav-icon"></i>
                                 <p>Usuarios del Sistema</p>
                             </a>
                         </li>
-                        
+                        <?php }?>
                         <li class="nav-item">
                             <a href="/productos" class="nav-link <?php echo isset($seccion) && $seccion === '/productos' ? 'active' : ''; ?>">
                                 <i class="fas fa-shopping-bag nav-icon"></i>

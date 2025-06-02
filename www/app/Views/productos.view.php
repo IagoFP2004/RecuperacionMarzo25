@@ -10,6 +10,7 @@
     ?>
     <div class="col-12">
         <div class="card shadow mb-4">
+            <?php if (str_contains($_SESSION['permisos']['productos'],'w')){ ?>
             <div
                 class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <div class="col-6">
@@ -21,6 +22,7 @@
                     </div>                    
                 </div>
             </div>
+            <?php }?>
             <!-- Card Body -->
             <div class="card-body" id="card_table">
                 <div id="button_container" class="mb-3"></div>
@@ -51,10 +53,13 @@
                                                     
                             <td>                              
                                 <a href="/productos/view/<?php echo $p['codigo']; ?>" class="btn btn-default ml-1"><i class="fas fa-eye"></i></a>
+                                <?php if (str_contains($_SESSION['permisos']['productos'],'w')){ ?>
                                 <a href="/productos/edit/<?php echo $p['codigo']; ?>" class="btn btn-success ml-1"><i class="fas fa-edit"></i></a>
+                                <?php }?>
+                                <?php if (str_contains($_SESSION['permisos']['productos'],'d')){ ?>
                                 <a href="/productos/delete/<?php echo $p['codigo']; ?>" class="btn btn-danger ml-1"><i class="fas fa-trash"></i></a>
+                                <?php }?>
                             </td>
-
                         </tr>
                         <?php
                         }

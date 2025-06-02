@@ -286,6 +286,38 @@ class FrontController
                         'post'
                     );
                 }
+
+                if (str_contains($_SESSION['permisos']['ususariosistema'],'r')) {
+                    Route::add(
+                        '/usuarios-sistema',
+                        function () {
+                            $controlador = new UsuarioSistemaControllers();
+                            $controlador->mostrarListado();
+                        },
+                        'get'
+                    );
+
+                    if (str_contains($_SESSION['permisos']['ususariosistema'],'w')) {
+                        Route::add(
+                            '/usuarios-sistema/add',
+                            function () {
+                                $controlador = new UsuarioSistemaControllers();
+                                $controlador->mostrarAlta();
+                            },
+                            'get'
+                        );
+
+                        Route::add(
+                            '/usuarios-sistema/add',
+                            function () {
+                                $controlador = new UsuarioSistemaControllers();
+                                $controlador->doAlta();
+                            },
+                            'post'
+                        );
+                    }
+                }
+
             }
             Route::pathNotFound(
                 function () {

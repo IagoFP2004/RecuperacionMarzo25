@@ -13,4 +13,22 @@ class UsuarioSistemaModel extends BaseDbModel
         $stmt->execute(['nombre' => $nombre]);
         return $stmt->fetch();
     }
+
+    public function getAllUsuarios():array
+    {
+        $sql = "SELECT us.*,r.*
+                FROM usuario_sistema us 
+                LEFT JOIN rol r ON r.id_rol = us.id_rol ";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+
+    public function getByUsername(string $username):array | false
+    {
+        $sql = "SELECT * FROM usuario_sistema WHERE nombre = :username ";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['username' => $username]);
+        return $stmt->fetch();
+    }
 }

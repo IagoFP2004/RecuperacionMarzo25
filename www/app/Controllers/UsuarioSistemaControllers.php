@@ -45,10 +45,10 @@ class UsuarioSistemaControllers extends \Com\Daw2\Core\BaseController
 
         if ($idRol == 1) {
             $permisos = [
-                'ususariosistema'=>'rwx',
-                'categorias'=>'rwx',
-                'proveedores'=>'rwx',
-                'productos'=>'rwx',
+                'ususariosistema'=>'rwd',
+                'categorias'=>'rwd',
+                'proveedores'=>'rwd',
+                'productos'=>'rwd',
             ];
         }else if ($idRol == 2) {
             $permisos = [
@@ -61,11 +61,64 @@ class UsuarioSistemaControllers extends \Com\Daw2\Core\BaseController
             $permisos = [
                 'ususariosistema'=>'',
                 'categorias'=>'',
-                'proveedores'=>'rwx',
-                'productos'=>'rwx',
+                'proveedores'=>'rwd',
+                'productos'=>'rwd',
             ];
         }
 
         return $permisos;
+    }
+
+    public function mostrarListado():void
+    {
+        $data = [];
+        $data['titulo'] = 'Todos los usuarios del sistema';
+        $data['seccion'] = '/usuarios-sistema';
+
+        $modelo = new UsuarioSistemaModel();
+        $data['usuarios'] = $modelo->getAllUsuarios();
+
+        $this->view->showViews(array('templates/header.view.php', 'usuarios-sistema.view.php', 'templates/footer.view.php'), $data);
+    }
+
+    public function mostrarAlta():void
+    {
+        $data = [];
+        $data['titulo'] = 'Alta usuarios en el sistema';
+        $data['seccion'] = '/usuarios-sistema/add';
+        $this->view->showViews(array('templates/header.view.php', 'usuarios-sistemaAltaEdit.view.php', 'templates/footer.view.php'), $data);
+    }
+
+    public function doAlta():void
+    {
+        $data = [];
+        $data['titulo'] = 'Alta usuarios en el sistema';
+        $data['seccion'] = '/usuarios-sistema/add';
+
+        $errores = $this->checkErrors($_POST);
+
+        if ($errores === []){
+
+        }else{
+            $data['errores'] = $errores;
+            $data['input'] = filter_var_array($_POST, FILTER_SANITIZE_SPECIAL_CHARS);
+        }
+
+        $this->view->showViews(array('templates/header.view.php', 'usuarios-sistemaAltaEdit.view.php', 'templates/footer.view.php'), $data);
+    }
+
+    public function checkErrors(array $data):array
+    {
+        $errors = [];
+        $modelo = new UsuarioSistemaModel();
+
+        if($modelo->getByUsername($data['username']) !==false){
+            $errors['username'] = 'El nombre de usuario ya existe';
+        }else if (!preg_match('/^[A-Za-z0-9_]{5,20}$/', $data['username'])) {
+            $errors['username'] = 'El formato no es adecuado';
+        }
+
+
+        return $errors;
     }
 }

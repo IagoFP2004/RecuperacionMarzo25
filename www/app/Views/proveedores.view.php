@@ -15,12 +15,13 @@
                 <div class="col-6">
                 <h6 class="m-0 installfont-weight-bold text-primary">Proveedores</h6> 
                 </div>
+                <?php if (str_contains($_SESSION['permisos']['proveedores'],'w')){ ?>
                 <div class="col-6">
                 <div class="m-0 font-weight-bold justify-content-end">
                     <a href="/proveedores/add/" class="btn btn-primary ml-1 float-right"> Nuevo Proveedor <i class="fas fa-plus-circle"></i></a>
                 </div>
                 </div>
-                
+                <?php }?>
             </div>
             <!-- Card Body -->
             <div class="card-body" id="card_table">
@@ -76,9 +77,13 @@
                             -->
                             
                             <td>                                
-                                <a href="/proveedores/view/<?php echo $p['cif']; ?>" class="btn btn-default ml-1"><i class="fas fa-eye"></i></a>                                
+                                <a href="/proveedores/view/<?php echo $p['cif']; ?>" class="btn btn-default ml-1"><i class="fas fa-eye"></i></a>
+                                <?php if (str_contains($_SESSION['permisos']['proveedores'],'w')){ ?>
                                 <a href="/proveedores/edit/<?php echo $p['cif']; ?>" class="btn btn-success ml-1"><i class="fas fa-edit"></i></a>
+                                <?php }?>
+                                <?php if (str_contains($_SESSION['permisos']['proveedores'],'d')){ ?>
                                 <a href="/proveedores/delete/<?php echo $p['cif']; ?>" class="btn btn-danger ml-1"><i class="fas fa-trash"></i></a>
+                                <?php }?>
                             </td>
 
                         </tr>
