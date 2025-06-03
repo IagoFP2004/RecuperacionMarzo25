@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace Com\Daw2\Controllers;
 
+use Com\Daw2\Models\RolModel;
 use Com\Daw2\Models\UsuarioSistemaModel;
 
 class UsuarioSistemaControllers extends \Com\Daw2\Core\BaseController
@@ -86,6 +87,10 @@ class UsuarioSistemaControllers extends \Com\Daw2\Core\BaseController
         $data = [];
         $data['titulo'] = 'Alta usuarios en el sistema';
         $data['seccion'] = '/usuarios-sistema/add';
+
+        $rolModel = new RolModel();
+        $data['roles'] = $rolModel->getAll();
+
         $this->view->showViews(array('templates/header.view.php', 'usuarios-sistemaAltaEdit.view.php', 'templates/footer.view.php'), $data);
     }
 
@@ -95,6 +100,8 @@ class UsuarioSistemaControllers extends \Com\Daw2\Core\BaseController
         $data['titulo'] = 'Alta usuarios en el sistema';
         $data['seccion'] = '/usuarios-sistema/add';
 
+        $rolModel = new RolModel();
+
         $errores = $this->checkErrors($_POST);
 
         if ($errores === []){
@@ -102,6 +109,7 @@ class UsuarioSistemaControllers extends \Com\Daw2\Core\BaseController
         }else{
             $data['errores'] = $errores;
             $data['input'] = filter_var_array($_POST, FILTER_SANITIZE_SPECIAL_CHARS);
+            $data['roles'] = $rolModel->getAll();
         }
 
         $this->view->showViews(array('templates/header.view.php', 'usuarios-sistemaAltaEdit.view.php', 'templates/footer.view.php'), $data);
@@ -111,6 +119,7 @@ class UsuarioSistemaControllers extends \Com\Daw2\Core\BaseController
     {
         $errors = [];
         $modelo = new UsuarioSistemaModel();
+        $rolModel = new RolModel();
 
         if (empty($data['username'])) {
             $errors['username'] = 'El nombre de usuario no puede estar vacio';
@@ -136,6 +145,13 @@ class UsuarioSistemaControllers extends \Com\Daw2\Core\BaseController
             $errors['email'] = 'El email ya existe';
         }
 
+        if ($rolModel->getByRol((int)$data['id_rol']) === false){
+            $errors['id_rol'] = 'El rol no es valido';
+        }
+
+        if (!in_array($data['idioma'],['es','en','gl'])){
+            $errors['idioma'] = 'El idioma no es valido';
+        }
 
         return $errors;
     }

@@ -30,17 +30,17 @@
                                 </div>
                                 <div class="mb-3 col-sm-6">
                                     <label for="email">Email</label>
-                                    <input class="form-control" id="email" type="email" name="email" placeholder="miemail@dominio.org" value="<?php echo $input['email' ?? ''] ?>">
+                                    <input class="form-control" id="email" type="email" name="email" placeholder="miemail@dominio.org" value="<?php echo $input['email'] ?? '' ?>">
                                     <p class="text-danger"><?php echo $errores['email'] ?? '' ?></p>
                                 </div>
                                 <div class="mb-3 col-sm-4">
                                     <label for="id_rol">Rol del usuario</label>
                                     <select class="form-control select2-container--default" name="id_rol">
-                                        <option value="1">1: Administrador</option>
-                                        <option value="2">2: Auditor</option>
-                                        <option value="3">3: Facturación</option>
+                                       <?php foreach ($roles as $rol){ ?>
+                                           <option value="<?php echo $rol['id_rol'] ?>"><?php echo $rol['rol'] ?></option>
+                                        <?php }?>
                                     </select>
-                                    <p class="text-danger">Seleccione un rol válido</p>
+                                    <p class="text-danger"><?php echo $errores['id_rol'] ?? '' ?></p>
                                 </div>
                                 <div class="mb-3 col-sm-2">
                                     <label for="idioma">Idioma</label>
@@ -49,7 +49,7 @@
                                         <option value="gl ">Galego</option>
                                         <option value="en">Inglés</option>
                                     </select>
-                                    <p class="text-danger">Idioma inválido</p>
+                                    <p class="text-danger"><?php echo $errores['idioma'] ?? ''?></p>
                                 </div>
                                 <div class="col-12 text-right">
                                     <input type="submit" value="Enviar" name="enviar" class="btn btn-primary">
