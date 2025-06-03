@@ -105,6 +105,15 @@ class UsuarioSistemaControllers extends \Com\Daw2\Core\BaseController
         $errores = $this->checkErrors($_POST);
 
         if ($errores === []){
+            $modelo = new UsuarioSistemaModel();
+
+            $insertado = $modelo->insertarUsuario($_POST);
+
+            if ($insertado !== false){
+                header('Location: /usuarios-sistema');
+            }else{
+                header('Location: /usuarios-sistema/add');
+            }
 
         }else{
             $data['errores'] = $errores;

@@ -39,4 +39,18 @@ class UsuarioSistemaModel extends BaseDbModel
         $stmt->execute(['email' => $email]);
         return $stmt->fetch();
     }
+
+    public function insertarUsuario(array $data): bool
+    {
+        $sql = "INSERT INTO usuario_sistema (nombre, email, pass, id_rol, idioma)
+            VALUES (:nombre, :email, :pass, :id_rol, :idioma)";
+        $stmt = $this->pdo->prepare($sql);
+        return $stmt->execute([
+            'nombre' => $data['username'],
+            'email' => $data['email'],
+            'pass' => password_hash($data['pass'], PASSWORD_DEFAULT),
+            'id_rol' => $data['id_rol'],
+            'idioma' => $data['idioma']
+        ]);
+    }
 }
