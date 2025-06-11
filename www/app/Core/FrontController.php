@@ -2,7 +2,8 @@
 
 namespace Com\Daw2\Core;
 
-use Com\Daw2\Controllers\UsuarioSistemaControllers;
+use Cassandra\Uuid;
+use Com\Daw2\Controllers\UsuarioSistemaController;
 use Steampixel\Route;
 
 class FrontController
@@ -11,13 +12,12 @@ class FrontController
     static function main()
     {
         session_start();
-        if (!isset($_SESSION['usuario'])) {
-
+        if (!isset($_SESSION['USUARIO'])) {
             Route::add(
                 '/login',
                 function () {
-                    $controlador =  new UsuarioSistemaControllers();
-                    $controlador->showLogin();
+                    $controlador = new UsuarioSistemaController();
+                    $controlador->showMenuLogin();
                 },
                 'get'
             );
@@ -25,7 +25,7 @@ class FrontController
             Route::add(
                 '/login',
                 function () {
-                    $controlador =  new UsuarioSistemaControllers();
+                    $controlador = new UsuarioSistemaController();
                     $controlador->doLogin();
                 },
                 'post'
@@ -33,22 +33,21 @@ class FrontController
 
             Route::pathNotFound(
                 function () {
-                   header('Location: /login');
+                    header("location: /login");
                 }
             );
-
-        }else {
-            //Rutas que están disponibles para todos
+        }else{
 
             Route::add(
                 '/logout',
                 function () {
                     session_destroy();
-                    header('Location: /login');
+                    header("location: /login");
                 },
                 'get'
             );
 
+            //Rutas que están disponibles para todos
             Route::add(
                 '/',
                 function () {
@@ -85,8 +84,80 @@ class FrontController
                 },
                 'get'
             );
-            if (str_contains($_SESSION['permisos']['categorias'],'r')) {
-                # Gestion de categorías
+
+            #Gestion de Usuarios
+
+            if (str_contains($_SESSION['PERMISOS']['usuarios-sistema'],'r')){
+                Route::add(
+                    '/usuarios-sistema',
+                    function () {
+                        $controlador = new UsuarioSistemaController();
+                        $controlador->listado();
+                    },
+                    'get'
+                );
+
+                if (str_contains($_SESSION['PERMISOS']['usuarios-sistema'],'d')) {
+                    Route::add(
+                        '/usuarios-sistema/delete/([0-9]+)',
+                        function ($idUsuario) {
+                            $controlador = new UsuarioSistemaController();
+                            $controlador->deleteUser((int)$idUsuario);
+                        },
+                        'get'
+                    );
+                }
+                if (str_contains($_SESSION['PERMISOS']['usuarios-sistema'],'w')) {
+                    Route::add(
+                        '/usuarios-sistema/baja/([0-9]+)',
+                        function ($idUsuario) {
+                            $controlador = new UsuarioSistemaController();
+                            $controlador->cambiarBaja((int)$idUsuario);
+                        },
+                        'get'
+                    );
+
+                    Route::add(
+                        '/usuarios-sistema/add',
+                        function () {
+                            $controlador = new UsuarioSistemaController();
+                            $controlador->showMenuAlta();
+                        },
+                        'get'
+                    );
+
+                    Route::add(
+                        '/usuarios-sistema/add',
+                        function () {
+                            $controlador = new UsuarioSistemaController();
+                            $controlador->doAlta();
+                        },
+                        'post'
+                    );
+
+                    Route::add(
+                        '/usuarios-sistema/edit/([0-9]+)',
+                        function ($idUsuario) {
+                            $controlador = new UsuarioSistemaController();
+                            $controlador->showMenuEdit((int)$idUsuario);
+                        },
+                        'get'
+                    );
+
+                    Route::add(
+                        '/usuarios-sistema/edit/([0-9]+)',
+                        function ($idUsuario) {
+                            $controlador = new UsuarioSistemaController();
+                            $controlador->doEdit((int)$idUsuario);
+                        },
+                        'post'
+                    );
+
+                }
+            }
+
+            # Gestion de categorías
+            if (str_contains($_SESSION['PERMISOS']['categorias'],'r')){
                 Route::add(
                     '/categorias',
                     function () {
@@ -104,7 +175,8 @@ class FrontController
                     },
                     'get'
                 );
-                if (str_contains($_SESSION['permisos']['categorias'],'d')) {
+
+                if (str_contains($_SESSION['PERMISOS']['categorias'],'d')) {
                     Route::add(
                         '/categorias/delete/([0-9]+)',
                         function ($id) {
@@ -114,7 +186,7 @@ class FrontController
                         'get'
                     );
                 }
-                if (str_contains($_SESSION['permisos']['categorias'],'w')) {
+                if (str_contains($_SESSION['PERMISOS']['categorias'],'w')) {
                     Route::add(
                         '/categorias/edit/([0-9]+)',
                         function ($id) {
@@ -152,8 +224,8 @@ class FrontController
                     );
                 }
             }
-            if (str_contains($_SESSION['permisos']['productos'],'r')){
-                //Produtos
+            //Produtos
+            if (str_contains($_SESSION['PERMISOS']['productos'],'r')) {
                 Route::add(
                     '/productos',
                     function () {
@@ -171,7 +243,7 @@ class FrontController
                     'get'
                 );
 
-                if (str_contains($_SESSION['permisos']['productos'],'d')) {
+                if (str_contains($_SESSION['PERMISOS']['productos'],'d')) {
                     Route::add(
                         '/productos/delete/([A-Za-z0-9]+)',
                         function ($codigo) {
@@ -181,7 +253,7 @@ class FrontController
                         'get'
                     );
                 }
-                if (str_contains($_SESSION['permisos']['productos'],'w')) {
+                if (str_contains($_SESSION['PERMISOS']['productos'],'w')) {
                     Route::add(
                         '/productos/edit/([A-Za-z0-9]+)',
                         function ($codigo) {
@@ -220,7 +292,7 @@ class FrontController
                 }
             }
             //Proveedores
-            if (str_contains($_SESSION['permisos']['proveedores'],'r')) {
+            if (str_contains($_SESSION['PERMISOS']['proveedores'],'r')) {
                 Route::add(
                     '/proveedores',
                     function () {
@@ -238,8 +310,7 @@ class FrontController
                     },
                     'get'
                 );
-
-                if (str_contains($_SESSION['permisos']['proveedores'], 'd')) {
+                if (str_contains($_SESSION['PERMISOS']['proveedores'],'d')) {
                     Route::add(
                         '/proveedores/delete/([A-Za-z0-9]+)',
                         function ($cif) {
@@ -249,7 +320,7 @@ class FrontController
                         'get'
                     );
                 }
-                if (str_contains($_SESSION['permisos']['proveedores'], 'w')) {
+                if (str_contains($_SESSION['PERMISOS']['proveedores'],'w')) {
                     Route::add(
                         '/proveedores/edit/([A-Za-z0-9]+)',
                         function ($cif) {
@@ -286,38 +357,6 @@ class FrontController
                         'post'
                     );
                 }
-
-                if (str_contains($_SESSION['permisos']['ususariosistema'],'r')) {
-                    Route::add(
-                        '/usuarios-sistema',
-                        function () {
-                            $controlador = new UsuarioSistemaControllers();
-                            $controlador->mostrarListado();
-                        },
-                        'get'
-                    );
-
-                    if (str_contains($_SESSION['permisos']['ususariosistema'],'w')) {
-                        Route::add(
-                            '/usuarios-sistema/add',
-                            function () {
-                                $controlador = new UsuarioSistemaControllers();
-                                $controlador->mostrarAlta();
-                            },
-                            'get'
-                        );
-
-                        Route::add(
-                            '/usuarios-sistema/add',
-                            function () {
-                                $controlador = new UsuarioSistemaControllers();
-                                $controlador->doAlta();
-                            },
-                            'post'
-                        );
-                    }
-                }
-
             }
             Route::pathNotFound(
                 function () {

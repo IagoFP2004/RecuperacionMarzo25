@@ -27,7 +27,7 @@
      <!-- <p class="login-box-msg">Datos acceso: <i>admin@test.org - test</i></p>     -->  
       <form action="/login" method="post">
         <div class="input-group mb-3">
-          <input type="text" name="username" class="form-control" placeholder="Nombre de usuario" value="<?php echo $input['username'] ?? ''?>">
+          <input type="text" name="username" class="form-control" placeholder="Nombre de usuario" value="<?php echo $data['username'] ?? '' ?>">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-user"></span>
@@ -35,7 +35,7 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="password" class="form-control" name="pass" placeholder="Password" value="<?php echo $input['pass'] ?? ''?>">
+          <input type="password" class="form-control" name="pass" placeholder="Password" value="<?php echo $data['pass'] ?? '' ?>">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-lock"></span>

@@ -21,7 +21,7 @@
 
                 
                     <ul class="nav nav-treeview">
-                        <?php if (str_contains($_SESSION['permisos']['ususariosistema'],'r')){ ?>
+                        <?php if (str_contains($_SESSION['PERMISOS']['usuarios-sistema'],'r')){ ?>
                         <li class="nav-item">
                             <a href="/usuarios-sistema" class="nav-link <?php echo isset($seccion) && $seccion === '/usuarios-sistema' ? 'active' : ''; ?>">
                                 <i class="fas fa-users nav-icon"></i>
@@ -29,27 +29,30 @@
                             </a>
                         </li>
                         <?php }?>
+                        <?php if (str_contains($_SESSION['PERMISOS']['productos'],'r')){ ?>
                         <li class="nav-item">
                             <a href="/productos" class="nav-link <?php echo isset($seccion) && $seccion === '/productos' ? 'active' : ''; ?>">
                                 <i class="fas fa-shopping-bag nav-icon"></i>
                                 <p>Productos</p>
                             </a>
                         </li>
-                        <?php if (str_contains($_SESSION['permisos']['categorias'],'r')){ ?>
+                        <?php }?>
+                        <?php if (str_contains($_SESSION['PERMISOS']['categorias'],'r')){ ?>
                         <li class="nav-item">
                             <a href="/categorias" class="nav-link <?php echo isset($seccion) && $seccion === '/categorias' ? 'active' : ''; ?>">
                                 <i class="fas fa-folder nav-icon"></i>
                                 <p>Categorías</p>
                             </a>
                         </li>
-                        <?php } ?>
+                        <?php }?>
+                        <?php if (str_contains($_SESSION['PERMISOS']['proveedores'],'r')){ ?>
                         <li class="nav-item">
                             <a href="/proveedores" class="nav-link <?php echo isset($seccion) && $seccion === '/proveedores' ? 'active' : ''; ?>">
                                 <i class="fas fa-handshake nav-icon"></i>
                                 <p>Proveedores</p>
                             </a>
                         </li>
-
+                        <?php }?>
                 </ul>
             </li>
             

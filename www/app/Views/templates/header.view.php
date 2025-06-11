@@ -56,7 +56,7 @@
       </li>' ;
           ?>
       <li class="nav-item">
-        <a class="nav-link" href="<?php echo $_ENV['base.url']. ($_SESSION['usuario'] ? 'logout':'login') ?>" role="button">
+        <a class="nav-link" href="/<?php echo (isset($_SESSION['USUARIO'])? 'logout' : 'login') ?>" role="button">
             <i class="text-danger fas fa-sign-out-alt"></i>
         </a>        
       </li>
@@ -82,11 +82,11 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="assets/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+          <img src="assets/img/133005241.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
           <a href="#"
-                class="d-block"> <i><?php echo $_SESSION['usuario']['nombre'] ?? 'Usuario'?></i> </a>
+                class="d-block"> <i><?php echo $_SESSION['USUARIO']['nombre'] ?? 'Sin establecer' ?></i> </a>
         </div>
       </div>
      

@@ -10,19 +10,19 @@
     ?>
     <div class="col-12">
         <div class="card shadow mb-4">
-            <?php if (str_contains($_SESSION['permisos']['productos'],'w')){ ?>
             <div
                 class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <div class="col-6">
                 <h6 class="m-0 installfont-weight-bold text-primary">Productos</h6> 
                 </div>
+                <?php if (str_contains($_SESSION['PERMISOS']['productos'],'w')) { ?>
                 <div class="col-6">                       
                     <div class="m-0 font-weight-bold justify-content-end">
                         <a href="/productos/add/" class="btn btn-primary ml-1 float-right"> Nuevo producto <i class="fas fa-plus-circle"></i></a>
                     </div>                    
                 </div>
+                <?php }?>
             </div>
-            <?php }?>
             <!-- Card Body -->
             <div class="card-body" id="card_table">
                 <div id="button_container" class="mb-3"></div>
@@ -53,13 +53,14 @@
                                                     
                             <td>                              
                                 <a href="/productos/view/<?php echo $p['codigo']; ?>" class="btn btn-default ml-1"><i class="fas fa-eye"></i></a>
-                                <?php if (str_contains($_SESSION['permisos']['productos'],'w')){ ?>
+                                <?php if (str_contains($_SESSION['PERMISOS']['productos'],'w')) { ?>
                                 <a href="/productos/edit/<?php echo $p['codigo']; ?>" class="btn btn-success ml-1"><i class="fas fa-edit"></i></a>
                                 <?php }?>
-                                <?php if (str_contains($_SESSION['permisos']['productos'],'d')){ ?>
+                                <?php if (str_contains($_SESSION['PERMISOS']['productos'],'d')) { ?>
                                 <a href="/productos/delete/<?php echo $p['codigo']; ?>" class="btn btn-danger ml-1"><i class="fas fa-trash"></i></a>
                                 <?php }?>
                             </td>
+
                         </tr>
                         <?php
                         }

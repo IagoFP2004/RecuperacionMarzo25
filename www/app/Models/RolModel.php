@@ -8,17 +8,17 @@ class RolModel extends BaseDbModel
 {
     public function getAll():array
     {
-        $sql = "SELECT r.* FROM rol r";
+        $sql = "SELECT * FROM rol";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll();
     }
 
-    public function getByRol(int $idRol):array | false
+    public function getById(int $id):array | false
     {
-        $sql = "SELECT r.* FROM rol r WHERE r.id_rol = :idRol";
+        $sql = "SELECT * FROM rol WHERE id_rol = :id";
         $stmt = $this->pdo->prepare($sql);
-        $stmt->execute([':idRol' => $idRol]);
+        $stmt->execute(['id' => $id]);
         return $stmt->fetch();
     }
 }
